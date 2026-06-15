@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  role         UserRole   @default(USER)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  analyses     Analysis[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Analysis {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  birthName   String
+  currentName String?
+  nicknames   String[] @default([])
+  birthDay    Int
+  birthMonth  Int
+  birthYear   Int
+  result      Json     // FullAnalysis serializado
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Interpretation {
+  id          String   @id @default(cuid())
+  category    String   // destiny, soul, personality, etc.
+  number      Int      // 1-9, 11, 22, 33
+  title       String
+  summary     String
+  description String   @db.Text
+  strengths   String[]
+  challenges  String[]
+  keywords    String[]
+  reference   String
+  updatedAt   DateTime @updatedAt
+
+  @@unique([category, number])
+}
+
+model NumerologyConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}

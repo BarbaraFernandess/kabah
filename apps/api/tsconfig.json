@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "@kabah/engine": ["../../packages/engine/src/index.js"]
+    }
+  },
+  "include": ["src/**/*", "../../packages/engine/src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
+}
