@@ -46,9 +46,9 @@ export async function updateInterpretation(
   if (data.title !== undefined) updatePayload['title'] = data.title;
   if (data.summary !== undefined) updatePayload['summary'] = data.summary;
   if (data.description !== undefined) updatePayload['description'] = data.description;
-  if (data.strengths !== undefined) updatePayload['strengths'] = data.strengths;
-  if (data.challenges !== undefined) updatePayload['challenges'] = data.challenges;
-  if (data.keywords !== undefined) updatePayload['keywords'] = data.keywords;
+  if (data.strengths !== undefined) updatePayload['strengths'] = JSON.stringify(data.strengths);
+  if (data.challenges !== undefined) updatePayload['challenges'] = JSON.stringify(data.challenges);
+  if (data.keywords !== undefined) updatePayload['keywords'] = JSON.stringify(data.keywords);
   if (data.reference !== undefined) updatePayload['reference'] = data.reference;
 
   return prisma.interpretation.update({
@@ -72,9 +72,7 @@ export async function upsertConfigKey(
 ): Promise<NonNullable<NumerologyConfigRecord>> {
   return prisma.numerologyConfig.upsert({
     where: { key },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    create: { key, value: value as any, updatedAt: new Date() },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    update: { value: value as any, updatedAt: new Date() },
+    create: { key, value: JSON.stringify(value), updatedAt: new Date() },
+    update: { value: JSON.stringify(value), updatedAt: new Date() },
   });
 }

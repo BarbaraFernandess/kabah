@@ -489,6 +489,12 @@ const INTERPRETATIONS = [
 
 export async function seedInterpretations(prisma: PrismaClient): Promise<void> {
   for (const interpretation of INTERPRETATIONS) {
+    const data = {
+      ...interpretation,
+      strengths: JSON.stringify(interpretation.strengths),
+      challenges: JSON.stringify(interpretation.challenges),
+      keywords: JSON.stringify(interpretation.keywords),
+    };
     await prisma.interpretation.upsert({
       where: {
         category_number: {
@@ -496,8 +502,8 @@ export async function seedInterpretations(prisma: PrismaClient): Promise<void> {
           number: interpretation.number,
         },
       },
-      update: interpretation,
-      create: interpretation,
+      update: data,
+      create: data,
     });
   }
 }

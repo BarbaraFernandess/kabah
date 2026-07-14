@@ -75,11 +75,11 @@ export async function createAnalysis(
       userId,
       birthName: input.birthName,
       ...(input.currentName !== undefined ? { currentName: input.currentName } : {}),
-      nicknames: input.nicknames ?? [],
+      nicknames: JSON.stringify(input.nicknames ?? []),
       birthDay: input.birthDay,
       birthMonth: input.birthMonth,
       birthYear: input.birthYear,
-      result: fullAnalysis as unknown as object,
+      result: JSON.stringify(fullAnalysis),
     },
   });
 

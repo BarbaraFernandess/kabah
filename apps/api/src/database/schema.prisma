@@ -12,15 +12,10 @@ model User {
   email        String     @unique
   passwordHash String
   name         String
-  role         UserRole   @default(USER)
+  role         String     @default("USER")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   analyses     Analysis[]
-}
-
-enum UserRole {
-  USER
-  ADMIN
 }
 
 model Analysis {
@@ -29,11 +24,11 @@ model Analysis {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   birthName   String
   currentName String?
-  nicknames   Json     @default("[]")
+  nicknames   String   @default("[]")
   birthDay    Int
   birthMonth  Int
   birthYear   Int
-  result      Json
+  result      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -45,9 +40,9 @@ model Interpretation {
   title       String
   summary     String
   description String
-  strengths   Json     @default("[]")
-  challenges  Json     @default("[]")
-  keywords    Json     @default("[]")
+  strengths   String   @default("[]")
+  challenges  String   @default("[]")
+  keywords    String   @default("[]")
   reference   String
   updatedAt   DateTime @updatedAt
 
@@ -57,6 +52,6 @@ model Interpretation {
 model NumerologyConfig {
   id        String   @id @default(cuid())
   key       String   @unique
-  value     Json
+  value     String
   updatedAt DateTime @updatedAt
 }
