@@ -75,7 +75,13 @@ async function enrichWithInterpretation(
     isMasterNumber: trace.isMasterNumber,
     ...(trace.karmicDebt !== undefined && { karmicDebt: trace.karmicDebt }),
     formula: trace.formula,
-    interpretation: interpretation ?? null,
+    interpretation: interpretation
+      ? {
+          title: interpretation.title,
+          summary: interpretation.summary,
+          keywords: interpretation.keywords as string[],
+        }
+      : null,
   };
 }
 

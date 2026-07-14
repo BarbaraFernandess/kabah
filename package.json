@@ -14,8 +14,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "typecheck": "turbo run typecheck",
     "db:generate": "cd apps/api && npx prisma generate",
-    "db:migrate": "cd apps/api && npx prisma migrate dev",
-    "db:seed": "cd apps/api && npx ts-node src/database/seeds/index.ts"
+    "db:push": "cd apps/api && npx prisma db push",
+    "db:seed": "cd apps/api && npx tsx src/database/seeds/index.ts"
   },
   "devDependencies": {
     "turbo": "^2.3.0",

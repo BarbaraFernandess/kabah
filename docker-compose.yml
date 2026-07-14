@@ -1,37 +1,19 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: kabah_postgres
-    environment:
-      POSTGRES_USER: kabah
-      POSTGRES_PASSWORD: kabah
-      POSTGRES_DB: kabah
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kabah"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   api:
     build:
       context: ./apps/api
       dockerfile: Dockerfile
     container_name: kabah_api
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://kabah:kabah@postgres:5432/kabah"
+      DATABASE_URL: "file:/data/kabah.db"
       JWT_SECRET: "${JWT_SECRET}"
       PORT: 3001
       NODE_ENV: production
       FRONTEND_URL: "${FRONTEND_URL:-http://localhost:5173}"
+    volumes:
+      - sqlite_data:/data
     ports:
       - "3001:3001"
 
@@ -48,4 +30,4 @@ services:
       - "5173:80"
 
 volumes:
-  postgres_data:
+  sqlite_data:

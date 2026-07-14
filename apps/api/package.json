@@ -2,6 +2,9 @@
   "name": "@kabah/api",
   "version": "1.0.0",
   "type": "module",
+  "prisma": {
+    "schema": "src/database/schema.prisma"
+  },
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
@@ -9,7 +12,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
     "db:seed": "tsx src/database/seeds/index.ts"
   },
   "dependencies": {
